@@ -1,4 +1,24 @@
 {
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "NodeJS": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier", "@typescript-eslint", "import", "unused-imports" /*, 'simple-import-sort'*/],
+  "ignorePatterns": ["dist", "**/node_modules/*"],
   "rules": {
     "@typescript-eslint/ban-ts-ignore": ["off"],
     "@typescript-eslint/camelcase": ["off"],
@@ -10,18 +30,19 @@
     "@typescript-eslint/no-use-before-define": ["off"],
     "@typescript-eslint/no-unused-vars": ["off"],
     "@typescript-eslint/no-namespace": ["off"],
+    "@typescript-eslint/no-extra-semi": ["off"],
     "@typescript-eslint/ban-ts-comment": "off",
     "camelcase": "off",
     "no-unused-expressions": "off",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["off", "always-multiline"],
     "require-await": "warn",
     "no-async-promise-executor": ["off"],
     "no-empty-pattern": ["off"],
     "no-undef": ["error"],
     "no-var": ["error"],
     "object-curly-spacing": ["error", "always"],
-    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
-    "semi": ["error", "always"],
+    "quotes": ["off", "double", { "allowTemplateLiterals": true }],
+    // "semi": ["error", "always"],
     "spaced-comment": ["off"],
     "no-prototype-builtins": ["off"],
     "sort-keys": ["off"],
@@ -32,26 +53,39 @@
     "no-useless-constructor": "off",
     "no-use-before-define": "off",
     "curly": "off",
-    "prefer-promise-reject-errors": "off"
-  },
-  "ignorePatterns": ["dist", "**/node_modules/*"],
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "globals": {
-    "NodeJS": true
-  },
-  "extends": [
-    "standard",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["prettier", "@typescript-eslint"]
+    "prefer-promise-reject-errors": "off",
+    "unused-imports/no-unused-imports": "error",
+    "import/no-unused-modules": ["warn", { "unusedExports": true }],
+    "import/order": [
+      "warn",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"], // default: "builtin", "external", "parent", "sibling", "index"
+        "pathGroups": [
+          {
+            "pattern": "**/*.scss",
+            "group": "object",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": []
+        // 'newlines-between': 'always',
+        // warnOnUnassignedImports: true,
+      }
+    ],
+    // 'simple-import-sort/imports': 'error',
+    // 'simple-import-sort/exports': 'error',
+    // 'prettier/prettier': [
+    //   'error',
+    //   {
+    //     semi: false,
+    //     singleQuote: true,
+    //     printWidth: 120,
+    //   },
+    // ],
+    "object-shorthand": ["error", "always"]
+  }
 }

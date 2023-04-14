@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+coverage
+public
+vendor
+package-lock.json
+package.json
+infra
+tmp
+ignore

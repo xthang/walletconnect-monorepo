@@ -1,77 +1,77 @@
-import SignClient from "@walletconnect/sign-client";
-import { SignClientTypes, ProposalTypes } from "@walletconnect/types";
-import { JsonRpcProvider } from "@walletconnect/jsonrpc-provider";
-import { KeyValueStorageOptions } from "@walletconnect/keyvaluestorage";
-import { IProvider } from "./providers";
-import EventEmitter from "events";
+import EventEmitter from 'events'
+import { JsonRpcProvider } from '@walletconnect/jsonrpc-provider'
+import { KeyValueStorageOptions } from '@walletconnect/keyvaluestorage'
+import SignClient from '@walletconnect/sign-client'
+import { SignClientTypes, ProposalTypes } from '@walletconnect/types'
+import { IProvider } from './providers'
 
 export interface UniversalProviderOpts {
-  projectId?: string;
-  metadata?: Metadata;
-  logger?: string;
-  client?: SignClient;
-  relayUrl?: string;
-  storageOptions?: KeyValueStorageOptions;
-  name?: string;
+  projectId?: string
+  metadata?: Metadata
+  logger?: string
+  client?: SignClient
+  relayUrl?: string
+  storageOptions?: KeyValueStorageOptions
+  name?: string
 }
 
-export type Metadata = SignClientTypes.Metadata;
+export type Metadata = SignClientTypes.Metadata
 
 export interface RpcProvidersMap {
-  [provider: string]: JsonRpcProvider;
+  [provider: string]: JsonRpcProvider
 }
 
 export interface EthereumRpcMap {
-  [chainId: string]: string;
+  [chainId: string]: string
 }
 
 export interface NamespacesMap {
-  [chainId: string]: Namespace;
+  [chainId: string]: Namespace
 }
 
 export interface RpcProviderMap {
-  [chainId: string]: IProvider;
+  [chainId: string]: IProvider
 }
 
 export interface Namespace extends ProposalTypes.BaseRequiredNamespace {
-  chains: string[];
-  rpcMap?: EthereumRpcMap;
-  defaultChain?: string;
+  chains: string[]
+  rpcMap?: EthereumRpcMap
+  defaultChain?: string
 }
 
 export interface NamespaceConfig {
-  [namespace: string]: Namespace;
+  [namespace: string]: Namespace
 }
 
 export interface SessionNamespace extends Namespace {
-  accounts?: string[];
+  accounts?: string[]
 }
 
 export interface ConnectParams {
-  namespaces: NamespaceConfig;
-  optionalNamespaces?: NamespaceConfig;
-  sessionProperties?: ProposalTypes.Struct["sessionProperties"];
-  pairingTopic?: string;
-  skipPairing?: boolean;
+  namespaces: NamespaceConfig
+  optionalNamespaces?: NamespaceConfig
+  sessionProperties?: ProposalTypes.Struct['sessionProperties']
+  pairingTopic?: string
+  skipPairing?: boolean
 }
 
 export interface SubProviderOpts {
-  client: SignClient;
-  namespace: Namespace;
-  events: EventEmitter;
+  client: SignClient
+  namespace: Namespace
+  events: EventEmitter
 }
 
 export interface RequestParams {
-  topic: string;
-  request: RequestArguments;
-  chainId: string;
-  id?: number;
+  topic: string
+  request: RequestArguments
+  chainId: string
+  id?: number
 }
 
 export interface RequestArguments {
-  method: string;
-  params?: unknown[] | Record<string, unknown> | object | undefined;
+  method: string
+  params?: unknown[] | Record<string, unknown> | object | undefined
 }
 export interface PairingsCleanupOpts {
-  deletePairings?: boolean;
+  deletePairings?: boolean
 }

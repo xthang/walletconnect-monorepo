@@ -1,64 +1,53 @@
-import { SessionTypes } from "@walletconnect/types";
-import {
-  isCaipNamespace,
-  isValidObject,
-  mergeArrays,
-  parseNamespaceKey,
-} from "@walletconnect/utils";
-import { RPC_URL } from "../constants";
-import { Namespace, NamespaceConfig } from "../types";
-import { merge } from "lodash";
+import { SessionTypes } from '@walletconnect/types'
+import { isCaipNamespace, isValidObject, mergeArrays, parseNamespaceKey } from '@walletconnect/utils'
+import { merge } from 'lodash'
+
+import { RPC_URL } from '../constants'
+import { Namespace, NamespaceConfig } from '../types'
 
 export function getRpcUrl(chainId: string, rpc: Namespace, projectId?: string): string | undefined {
-  let rpcUrl: string | undefined;
-  const parsedChainId = getChainId(chainId);
+  let rpcUrl: string | undefined
+  const parsedChainId = getChainId(chainId)
   if (rpc.rpcMap) {
-    rpcUrl = rpc.rpcMap[parsedChainId];
+    rpcUrl = rpc.rpcMap[parsedChainId]
   }
 
   if (!rpcUrl) {
-    rpcUrl = `${RPC_URL}?chainId=eip155:${parsedChainId}&projectId=${projectId}`;
+    rpcUrl = `${RPC_URL}?chainId=eip155:${parsedChainId}&projectId=${projectId}`
   }
-  return rpcUrl;
+  return rpcUrl
 }
 
 export function getChainId(chain: string): number {
-  return chain.includes("eip155") ? Number(chain.split(":")[1]) : Number(chain);
+  return chain.includes('eip155') ? Number(chain.split(':')[1]) : Number(chain)
 }
 
 export function validateChainApproval(chain: string, chains: string[]): void {
   if (!chains.includes(chain)) {
-    throw new Error(
-      `Chain '${chain}' not approved. Please use one of the following: ${chains.toString()}`,
-    );
+    throw new Error(`Chain '${chain}' not approved. Please use one of the following: ${chains.toString()}`)
   }
 }
 
 export function getChainsFromApprovedSession(accounts: string[]): string[] {
-  return accounts.map((address) => `${address.split(":")[0]}:${address.split(":")[1]}`);
+  return accounts.map((address) => `${address.split(':')[0]}:${address.split(':')[1]}`)
 }
 
 export function getAccountsFromSession(namespace: string, session: SessionTypes.Struct): string[] {
   // match namespaces e.g. eip155 with eip155:1
-  const matchedNamespaceKeys = Object.keys(session.namespaces).filter((key) =>
-    key.includes(namespace),
-  );
-  if (!matchedNamespaceKeys.length) return [];
-  const accounts: string[] = [];
+  const matchedNamespaceKeys = Object.keys(session.namespaces).filter((key) => key.includes(namespace))
+  if (!matchedNamespaceKeys.length) return []
+  const accounts: string[] = []
   matchedNamespaceKeys.forEach((key) => {
-    const accountsForNamespace = session.namespaces[key].accounts;
-    accounts.push(...accountsForNamespace);
-  });
-  return accounts;
+    const accountsForNamespace = session.namespaces[key].accounts
+    accounts.push(...accountsForNamespace)
+  })
+  return accounts
 }
 
-export function mergeRequiredOptionalNamespaces(
-  required: NamespaceConfig,
-  optional: NamespaceConfig = {},
-) {
-  const requiredNamespaces = normalizeNamespaces(required);
-  const optionalNamespaces = normalizeNamespaces(optional);
-  return merge(requiredNamespaces, optionalNamespaces);
+export function mergeRequiredOptionalNamespaces(required: NamespaceConfig, optional: NamespaceConfig = {}) {
+  const requiredNamespaces = normalizeNamespaces(required)
+  const optionalNamespaces = normalizeNamespaces(optional)
+  return merge(requiredNamespaces, optionalNamespaces)
 }
 
 /**
@@ -77,15 +66,15 @@ export function mergeRequiredOptionalNamespaces(
  *
  */
 export function normalizeNamespaces(namespaces: NamespaceConfig): NamespaceConfig {
-  const normalizedNamespaces: NamespaceConfig = {};
-  if (!isValidObject(namespaces)) return normalizedNamespaces;
+  const normalizedNamespaces: NamespaceConfig = {}
+  if (!isValidObject(namespaces)) return normalizedNamespaces
 
   for (const [key, values] of Object.entries(namespaces)) {
-    const chains = isCaipNamespace(key) ? [key] : values.chains;
-    const methods = values.methods || [];
-    const events = values.events || [];
-    const rpcMap = values.rpcMap || {};
-    const normalizedKey = parseNamespaceKey(key);
+    const chains = isCaipNamespace(key) ? [key] : values.chains
+    const methods = values.methods || []
+    const events = values.events || []
+    const rpcMap = values.rpcMap || {}
+    const normalizedKey = parseNamespaceKey(key)
     normalizedNamespaces[normalizedKey] = {
       ...normalizedNamespaces[normalizedKey],
       ...values,
@@ -93,7 +82,7 @@ export function normalizeNamespaces(namespaces: NamespaceConfig): NamespaceConfi
       methods: mergeArrays(methods, normalizedNamespaces[normalizedKey]?.methods),
       events: mergeArrays(events, normalizedNamespaces[normalizedKey]?.events),
       rpcMap: { ...rpcMap, ...normalizedNamespaces[normalizedKey]?.rpcMap },
-    };
+    }
   }
-  return normalizedNamespaces;
+  return normalizedNamespaces
 }
