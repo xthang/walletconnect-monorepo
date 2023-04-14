@@ -1,12 +1,12 @@
-import SignClient from '@walletconnect/sign-client'
 import { formatJsonRpcError, formatJsonRpcResult } from '@walletconnect/jsonrpc-utils'
+import SignClient from '@walletconnect/sign-client'
 import { SignClientTypes, SessionTypes } from '@walletconnect/types'
 import { getSdkError, getChainsFromAccounts } from '@walletconnect/utils'
+import { parseSignDocValues } from 'cosmos-wallet'
 import { ethers, utils } from 'ethers'
 import UniversalProvider from '../../src'
-import { parseSignDocValues } from 'cosmos-wallet'
-import CosmosLib from './CosmosWallet'
 import { ACCOUNTS } from './constants'
+import CosmosLib from './CosmosWallet'
 
 export interface WalletClientOpts {
   privateKey: string
