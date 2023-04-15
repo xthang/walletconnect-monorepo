@@ -1,12 +1,12 @@
 {
-  "name": "@walletconnect/universal-provider",
+  "name": "walletconnect-universal-provider",
   "description": "Universal Provider for WalletConnect Protocol",
   "version": "2.7.0",
-  "author": "WalletConnect, Inc. <walletconnect.com>",
-  "homepage": "https://github.com/walletconnect/walletconnect-monorepo/",
+  "author": "WalletConnect, Inc. <walletconnect.com>; Thang.X",
+  "homepage": "https://github.com/xthang/walletconnect-monorepo/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/walletconnect/walletconnect-monorepo",
+    "url": "https://github.com/xthang/walletconnect-monorepo",
     "directory": "packages/universal-provider"
   },
   "license": "Apache-2.0",
